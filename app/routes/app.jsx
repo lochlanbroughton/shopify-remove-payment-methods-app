@@ -29,7 +29,6 @@ export default function App() {
       />
       <ui-nav-menu>
         <Link to="/app" rel="home">Home</Link>
-        {/*<Link to="/app/additional">Additional page</Link>*/}
       </ui-nav-menu>
       <PolarisAppProvider i18n={polarisTranslations}>
         <Outlet />
