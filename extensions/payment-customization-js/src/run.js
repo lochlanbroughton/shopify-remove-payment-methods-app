@@ -32,15 +32,17 @@ export function run(input) {
     return NO_CHANGES;
   }
 
-  // Use the configured cart total instead of a hardcoded value
-  if (!input.cart.lines.some(line => line.merchandise.__typename === "ProductVariant" && configuration.productHandles.includes(line.merchandise.product.handle))) {
+  // Bail if no matching product handles are found
+  if (!input.cart.lines.some(line => {
+    return line.merchandise.__typename === "ProductVariant" && configuration.productHandles.includes(line.merchandise.product.handle)
+  })) {
     console.error(
-      "Cart does not contain a product with an excluded handle"
+      "Cart does not contain a product with a matching handle"
     );
     return NO_CHANGES;
   }
 
-  // Use the configured payment method name instead of a hardcoded value
+  // Hide the configured payment method
   const hidePaymentMethod = input.paymentMethods.find((method) =>
     method.name.includes(configuration.paymentMethodName)
   );
