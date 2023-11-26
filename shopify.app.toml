@@ -2,7 +2,7 @@
 
 name = "hide-payment-methods"
 client_id = "581d5e17d9b9f69067aa6c609036621e"
-application_url = "https://reward-horrible-andale-ones.trycloudflare.com"
+application_url = "https://singer-trained-resume-math.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,10 +11,10 @@ scopes = "write_products,write_payment_customizations,read_payment_customization
 
 [auth]
 redirect_urls = [
-  "https://reward-horrible-andale-ones.trycloudflare.com/auth/callback",
-  "https://reward-horrible-andale-ones.trycloudflare.com/auth/shopify/callback",
-  "https://reward-horrible-andale-ones.trycloudflare.com/api/auth/callback",
-  "https://reward-horrible-andale-ones.trycloudflare.com/.shopify/graphiql/auth/callback"
+  "https://singer-trained-resume-math.trycloudflare.com/auth/callback",
+  "https://singer-trained-resume-math.trycloudflare.com/auth/shopify/callback",
+  "https://singer-trained-resume-math.trycloudflare.com/api/auth/callback",
+  "https://singer-trained-resume-math.trycloudflare.com/.shopify/graphiql/auth/callback"
 ]
 
 [webhooks]

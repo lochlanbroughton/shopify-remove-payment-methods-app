@@ -26,8 +26,8 @@ export const loader = async ({ params, request }) => {
   // If the ID is `new`, then we are creating a new customization and there's no data to load.
   if (id === "new") {
     return {
-      paymentMethodName: "",
-      cartTotal: "0",
+      paymentMethodName: "Afterpay",
+      productHandles: "no-afterpay",
     };
   }
 
@@ -55,8 +55,8 @@ export const loader = async ({ params, request }) => {
     JSON.parse(responseJson.data.paymentCustomization.metafield.value);
 
   return json({
-    paymentMethodName: metafield?.paymentMethodName ?? "",
-    cartTotal: metafield?.cartTotal ?? "0",
+    paymentMethodName: metafield?.paymentMethodName ?? "Afterpay",
+    productHandles: metafield?.productHandles ?? "no-afterpay",
   });
 };
 
@@ -68,11 +68,11 @@ export const action = async ({ params, request }) => {
   const formData = await request.formData();
 
   const paymentMethodName = formData.get("paymentMethodName");
-  const cartTotal = parseFloat(formData.get("cartTotal"));
+  const productHandles = formData.get("productHandles");
 
   const paymentCustomizationInput = {
     functionId,
-    title: `Hide ${paymentMethodName} if cart total is larger than ${cartTotal}`,
+    title: `Hide ${paymentMethodName} if cart contains a products with a set handle`,
     enabled: true,
     metafields: [
       {
@@ -81,7 +81,7 @@ export const action = async ({ params, request }) => {
         type: "json",
         value: JSON.stringify({
           paymentMethodName,
-          cartTotal,
+          productHandles,
         }),
       },
     ],
@@ -149,7 +149,7 @@ export default function PaymentCustomization() {
   const [paymentMethodName, setPaymentMethodName] = useState(
     loaderData.paymentMethodName
   );
-  const [cartTotal, setCartTotal] = useState(loaderData.cartTotal);
+  const [productHandles, setProductHandles] = useState(loaderData.productHandles);
 
   const isLoading = navigation.state === "submitting";
 
@@ -169,7 +169,7 @@ export default function PaymentCustomization() {
   ) : null;
 
   const handleSubmit = () => {
-    submit({ paymentMethodName, cartTotal }, { method: "post" });
+    submit({ paymentMethodName, productHandles }, { method: "post" });
   };
 
   useEffect(() => {
@@ -210,13 +210,14 @@ export default function PaymentCustomization() {
                     requiredIndicator
                   />
                   <TextField
-                    name="cartTotal"
-                    type="number"
-                    label="Cart total"
-                    value={cartTotal}
-                    onChange={setCartTotal}
+                    name="productHandles"
+                    type="text"
+                    label="Product handles"
+                    value={productHandles}
+                    onChange={setProductHandles}
                     disabled={isLoading}
                     autoComplete="on"
+                    helpText="Comma-separated list of product handles"
                     requiredIndicator
                   />
                 </FormLayout.Group>

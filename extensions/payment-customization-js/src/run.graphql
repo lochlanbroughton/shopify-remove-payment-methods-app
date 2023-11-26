@@ -1,8 +1,13 @@
 query RunInput {
   cart {
-    cost {
-      totalAmount {
-        amount
+    lines {
+      merchandise {
+        __typename
+        ...on ProductVariant {
+          product {
+            handle
+          }
+        }
       }
     }
   }

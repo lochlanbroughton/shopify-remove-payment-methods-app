@@ -22,21 +22,20 @@ export function run(input) {
   /**
    * @type {{
    *   paymentMethodName: string
-   *   cartTotal: number
+   *   productHandles: string
    * }}
    */
   const configuration = JSON.parse(
     input?.paymentCustomization?.metafield?.value ?? "{}"
   );
-  if (!configuration.paymentMethodName || !configuration.cartTotal) {
+  if (!configuration.paymentMethodName || !configuration.productHandles) {
     return NO_CHANGES;
   }
 
-  const cartTotal = parseFloat(input.cart.cost.totalAmount.amount ?? "0.0");
   // Use the configured cart total instead of a hardcoded value
-  if (cartTotal < configuration.cartTotal) {
+  if (!input.cart.lines.some(line => line.merchandise.__typename === "ProductVariant" && configuration.productHandles.includes(line.merchandise.product.handle))) {
     console.error(
-      "Cart total is not high enough, no need to hide the payment method."
+      "Cart does not contain a product with an excluded handle"
     );
     return NO_CHANGES;
   }
